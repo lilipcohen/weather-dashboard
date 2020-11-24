@@ -14,3 +14,12 @@ h1 {
   padding: 20px;
   margin-top: -8px;
 }
+
+.city-choice {
+  padding: 0px 0px 0px 20px;
+  border: gray;
+}
+
+.city-days {
+  padding: 0px 0px 0px 20px;
+}

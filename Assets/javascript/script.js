@@ -14,23 +14,45 @@ function displayCityInfo() {
     
             // Storing an array of results in the results variable
             console.log(response);
-
-            var cityName = $("<h2>").text(response.name + response.coord.dt);
-            $(".city-choice").prepend(cityName);
             
+            //not showing up at paragraphs
+            var cityName = $("<h2>").text(response.name);
+            $(".city-choice").append(cityName);
+            //date looks off
+            var cityDate = $("<p>").text(response.dt);
+            cityName.append(cityDate);
+            //icon not image
+            var cityIcon = $("<img>").attr(response.weather[0].icon);
+            cityDate.append(cityIcon);
+            //temp not in farenheit maybe?
             var cityTemp = $("<p>").text(response.main.temp);
-            cityName.append(cityTemp);
+            cityIcon.append(cityTemp);
+            //not in percentages
             var cityHum = $("<p>").text(response.main.humidity);
             cityTemp.append(cityHum);
+            //not in mph
             var cityWind = $("<p>").text(response.wind.speed);
             cityHum.append(cityWind);
+            //doesnt show up or in color either?
+            var cityUV = $("<p>").text(response.uvi);
+            cityWind.append(cityUV);
+            
+            //for the 5 day forecast div
+            for (var i = 0; i < 5; i++){
+                
+            }
         });
 }
 
 submitBtn.on("click", function (event) {
-    console.log('event listener');
     event.preventDefault();
-    console.log('event listener');
+
  
     displayCityInfo();
 });
+
+//how to create search history and store information? local storage?
+
+localStorage.setItem("city history", "inputCity");
+$("form").append(localStorage.getItem("inputcity"));
+//when open how to show last searched city?

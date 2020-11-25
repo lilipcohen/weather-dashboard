@@ -22,7 +22,7 @@ function displayCityInfo() {
         .then(function (response) {
     
             // Storing an array of results in the results variable            
-            //not showing up at paragraphs
+
             var cityName = $("<h2>").text(response.name);
             $(".city-choice").append(cityName);
             //date looks off
@@ -38,13 +38,13 @@ function displayCityInfo() {
             //temp not in farenheit maybe?
 
             var temp = Math.floor((response.main.temp - 273) * (9/5) + 32)
-            var cityTemp = $("<p>").text(temp + 'Â°F');
+            var cityTemp = $("<p>").text("Temperature: " + temp + '°F');
             $(".city-choice").append(cityTemp);
             //not in percentages
-            var cityHum = $("<p>").text(response.main.humidity + '%');
+            var cityHum = $("<p>").text("Humidity: " + response.main.humidity + '%');
             $(".city-choice").append(cityHum);
             //not in mph
-            var cityWind = $("<p>").text((response.wind.speed * 2.237) + ' mph');
+            var cityWind = $("<p>").text("Wind Speed: " + (response.wind.speed * 2.237) + ' mph');
             $(".city-choice").append(cityWind);
             
             var uvUrl = `http://api.openweathermap.org/data/2.5/uvi?lat=${response.coord.lat}&lon=${response.coord.lon}${API_SECRET}`
@@ -55,17 +55,21 @@ function displayCityInfo() {
             }).then(function(uvResponse) {
                 // doesnt show up or in color either?
 
-                var uvColor = 'purple';
+                var uvColor
                 var uvValue = uvResponse.value
-                if(uvValue < 3) {
-                    uvColor = 'green'
-                } else if (uvValue >= 3 && uvValue < 6 ) {
+                if (uvValue < 3) {
+                    uvColor = 'lightgreen'
+                } else if (uvValue >= 3 && uvValue < 6) {
                     uvColor = 'yellow'
-                } 
+                } else if (uvValue >= 6 && uvValue < 9) {
+                    uvColor = 'red'
+                } else {
+                    uvColor = "purple"
+                }
                 // TODO - Add more UV ranges
 
-                var cityUV = $("<p>").text(uvValue).css({
-                    color: 'white',
+                var cityUV = $("<p>").text("Uv Index: " + uvValue).css({
+                    color: 'black',
                     backgroundColor: uvColor
                 });
 
@@ -96,11 +100,29 @@ function displayFiveDay() {
                 forecastMap[day] = item   
             }
 
-            const fiveForecast = Object.values(forecastMap).slice(0, 5)
+            var fiveForecast = Object.values(forecastMap).slice(0, 5)
 
-            console.log({fiveForecast})
+            console.log({ fiveForecast })
+            
+            var fiveTitle = $("<h2>").text("5 Day Forecast");
+            $(".city-days").append(fiveTitle);
 
             // TODO - Run a for-loop to render forecast cards
+            for (var i = 0; i < fiveForecast.length; i++) {
+                // fiveForecast[i].innerHTML = "";
+                var iconcode = fiveForecast[i].weather[0].icon
+                var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                var fiveDate = $("<p>").text(new Date(fiveForecast[i].dt * 1000).toDateString());
+                var fiveIcon = $("<img>").attr('src', iconurl);
+                var temp = Math.floor((fiveForecast[i].main.temp - 273) * (9/5) + 32)
+                var fiveTemp = $("<p>").text("Temp: " +temp + '°F');
+                var fiveHum = $("<p>").text("Humidity: " + fiveForecast[i].main.humidity + '%');
+                $(".city-days").append(fiveDate);
+                $(".city-days").append(fiveIcon);
+                $(".city-days").append(fiveTemp);
+                $(".city-days").append(fiveHum);
+            }
+            
         })
 
 }

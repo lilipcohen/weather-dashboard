@@ -8,6 +8,9 @@ function loadSearchButtons() {
     // TODO - Run a for-loop to add buttons to search area
 
     // TODO - Each button should have an event listener that calls the API functions
+    for (var i = 0; i < searchHistory.length; i++){
+        
+    }
 }
 
 function displayCityInfo() { 
@@ -34,16 +37,14 @@ function displayCityInfo() {
 
             var cityIcon = $("<img>").attr('src', iconurl);
             cityDate.append(cityIcon);
-            //icon not image
-            //temp not in farenheit maybe?
 
             var temp = Math.floor((response.main.temp - 273) * (9/5) + 32)
             var cityTemp = $("<p>").text("Temperature: " + temp + '°F');
             $(".city-choice").append(cityTemp);
-            //not in percentages
+
             var cityHum = $("<p>").text("Humidity: " + response.main.humidity + '%');
             $(".city-choice").append(cityHum);
-            //not in mph
+
             var cityWind = $("<p>").text("Wind Speed: " + (response.wind.speed * 2.237) + ' mph');
             $(".city-choice").append(cityWind);
             
@@ -53,7 +54,6 @@ function displayCityInfo() {
                 url: uvUrl,
                 method: "GET"
             }).then(function(uvResponse) {
-                // doesnt show up or in color either?
 
                 var uvColor
                 var uvValue = uvResponse.value
@@ -66,7 +66,6 @@ function displayCityInfo() {
                 } else {
                     uvColor = "purple"
                 }
-                // TODO - Add more UV ranges
 
                 var cityUV = $("<p>").text("Uv Index: " + uvValue).css({
                     color: 'black',
@@ -110,6 +109,7 @@ function displayFiveDay() {
             // TODO - Run a for-loop to render forecast cards
             for (var i = 0; i < fiveForecast.length; i++) {
                 // fiveForecast[i].innerHTML = "";
+                var fiveContainer = $(".city-days").append("<div>");
                 var iconcode = fiveForecast[i].weather[0].icon
                 var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                 var fiveDate = $("<p>").text(new Date(fiveForecast[i].dt * 1000).toDateString());
@@ -117,10 +117,11 @@ function displayFiveDay() {
                 var temp = Math.floor((fiveForecast[i].main.temp - 273) * (9/5) + 32)
                 var fiveTemp = $("<p>").text("Temp: " +temp + '°F');
                 var fiveHum = $("<p>").text("Humidity: " + fiveForecast[i].main.humidity + '%');
-                $(".city-days").append(fiveDate);
-                $(".city-days").append(fiveIcon);
-                $(".city-days").append(fiveTemp);
-                $(".city-days").append(fiveHum);
+                fiveContainer.addClass("container-five");
+                $(fiveContainer).append(fiveDate);
+                $(fiveContainer).append(fiveIcon);
+                $(fiveContainer).append(fiveTemp);
+                $(fiveContainer).append(fiveHum);
             }
             
         })

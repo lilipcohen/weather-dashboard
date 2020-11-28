@@ -1,4 +1,4 @@
-var submitBtn = $("button");
+var submitBtn = $(".btn-primary");
 
 var API_SECRET = '&id=524901&appid=9ed816d0a4838a096ac31df49691a77a'
 
@@ -6,12 +6,21 @@ var searchHistory = localStorage.getItem('searches') || []
 
 function loadSearchButtons() {
     // TODO - Run a for-loop to add buttons to search area
+     $("city-buttons").empty();
+    var inputCity = $("#inlineFormInputCity").val().trim();
 
     // TODO - Each button should have an event listener that calls the API functions
-    for (var i = 0; i < searchHistory.length; i++){
         
-    }
+    var cityBtn = $("<button>").text(inputCity);
+    $(".city-buttons").append(cityBtn);
+    
+    cityBtn.on("click", function (event) { 
+        event.preventDefault();
+        displayCityInfo();
+        displayFiveDay();
+    });
 }
+
 
 function displayCityInfo() { 
     var inputCity = $("#inlineFormInputCity").val().trim();
@@ -130,12 +139,15 @@ function displayFiveDay() {
 
 submitBtn.on("click", function (event) {
     event.preventDefault();
-
-    var inputCity = $("#inlineFormInputCity").val().trim();
+    
     // TODO - Save the city to local storage
- 
+    var inputCity = $("#inlineFormInputCity").val().trim();
+    
+    localStorage.setItem('searches', inputCity) || []
     displayCityInfo();
-    displayFiveDay()
+    displayFiveDay();
+    loadSearchButtons();
+
 });
 
 //how to create search history and store information? local storage?

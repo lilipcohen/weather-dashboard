@@ -3,6 +3,7 @@ var submitBtn = $(".btn-primary");
 var API_SECRET = '&id=524901&appid=9ed816d0a4838a096ac31df49691a77a'
 
 var searchHistory = localStorage.getItem('searches');
+var searchBtn = localStorage.getItem('buttons');
 var cityArr = [];
 
 function loadSearchButtons() {
@@ -14,6 +15,7 @@ function loadSearchButtons() {
     
     // TODO - Each button should have an event listener that calls the API functions
     for (var i = 0; i < cityArr.length; i++) {
+
         var cityBtn = $("<button>").text(inputCity);
         $(".city-buttons").append(cityBtn);
     }
@@ -89,9 +91,7 @@ function displayFiveDay() {
         url: queryURL,
         method: "GET"
     })
-        // After the data comes back from the API
         .then(function (response) {
-            console.log({response})
 
             var forecastMap = {}
 
@@ -104,15 +104,11 @@ function displayFiveDay() {
             }
 
             var fiveForecast = Object.values(forecastMap).slice(0, 5)
-
-            console.log({ fiveForecast })
             
             var fiveTitle = $("<h2>").text("5 Day Forecast");
             $(".city-days").append(fiveTitle);
 
-            // TODO - Run a for-loop to render forecast cards
             for (var i = 0; i < fiveForecast.length; i++) {
-                // fiveForecast[i].innerHTML = "";
                 var fiveContainer = $(".city-days").append("<div>");
                 var iconcode = fiveForecast[i].weather[0].icon
                 var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
@@ -135,9 +131,12 @@ function displayFiveDay() {
 submitBtn.on("click", function (event) {
     event.preventDefault();
     var inputCity = $("#inlineFormInputCity").val().trim();
+    var searchHistory = $("#inlineFormInputCity").val().trim();
+    var searchBtns = $("<button>").text(inputCity);
     // TODO - Save the city to local storage
-    var inputCity = JSON.parse(localStorage.getItem(inputCity));
-    localStorage.setItem('searches', inputCity);
+
+    localStorage.setItem('searches', searchHistory);
+    localStorage.setItem('buttons', searchBtns);
     displayCityInfo();
     displayFiveDay();
     loadSearchButtons();

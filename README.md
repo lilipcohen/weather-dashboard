@@ -6,5 +6,5 @@ For this assignment I had to use the open weather api to create a search for wea
 
 To do this I had to create 3 api calls, I then saved each city locally to storage and created a button based off of the city they had searched and added the buttons dynamicaly so the user could go back to a previously searched city.
 
-![Image](Assets/Images/photo-1.png)
+![Image](Assets/photos/photo-1.png)
 [Link](https://lilipcohen.github.io/weather-dashboard/)

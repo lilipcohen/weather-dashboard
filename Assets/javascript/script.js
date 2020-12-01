@@ -2,9 +2,10 @@ var submitBtn = $(".btn-primary");
 
 var API_SECRET = '&id=524901&appid=9ed816d0a4838a096ac31df49691a77a'
 
-var searchHistory = localStorage.getItem('searches');
+var searchHistory = JSON.parse(localStorage.getItem('searches'));
 var cityArr = [];
 $(".city-buttons").html(searchHistory);
+
 
 function loadSearchButtons() {
     // TODO - Run a for-loop to add buttons to search area
@@ -131,9 +132,10 @@ submitBtn.on("click", function (event) {
     event.preventDefault();
 
     var inputCity = $("#inlineFormInputCity").val().trim();
+    // var cityBtn = $("<button>").text(inputCity);
     // TODO - Save the city to local storage
 
-    localStorage.setItem('searches', inputCity);
+    localStorage.setItem('searches', JSON.stringify(inputCity));
 
     displayCityInfo();
     displayFiveDay();

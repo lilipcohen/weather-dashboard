@@ -9,22 +9,22 @@ $(".city-buttons").html(searchHistory);
 
 function loadSearchButtons() {
     // TODO - Run a for-loop to add buttons to search area
-     $("city-buttons").empty();
+     $(".city-buttons").empty();
     var inputCity = $("#inlineFormInputCity").val().trim();
-    JSON.stringify(inputCity);
-    cityArr.push(cityBtn);
-    
+    cityArr.push(inputCity);
     // TODO - Each button should have an event listener that calls the API functions
     for (var i = 0; i < cityArr.length; i++) {
 
-        var cityBtn = $("<button>").text(inputCity);
+        var cityBtn = $("<button>").text(cityArr[i]);
         $(".city-buttons").append(cityBtn);
     }
+    
     cityBtn.on("click", function (event) { 
         event.preventDefault();
         displayCityInfo();
         displayFiveDay();
     });
+    console.log(cityArr);
 }
 
 
@@ -135,7 +135,7 @@ submitBtn.on("click", function (event) {
     // var cityBtn = $("<button>").text(inputCity);
     // TODO - Save the city to local storage
 
-    localStorage.setItem('searches', JSON.stringify(inputCity));
+    localStorage.setItem('searches', JSON.stringify(cityArr));
 
     displayCityInfo();
     displayFiveDay();
